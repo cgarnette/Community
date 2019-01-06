@@ -32,7 +32,7 @@ class Events extends Component {
                 </div>
                 <div style={{marginTop: '1em', height: '65%', overflow: 'auto'}}>
                     <div style={{display: 'flex', margin: '1em 0 1em 0', justifyContent: 'center'}}>
-                        <Image src={event.logo.url}/>
+                        {event.logo ? <Image src={event.logo.url}/> : "No Image"}
                     </div>
                     <div style={{margin: '1em'}}>
                         {event.description.text}
