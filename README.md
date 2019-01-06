@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Too the application running please visit: http://community-app.gearhostpreview.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
