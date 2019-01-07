@@ -139,7 +139,7 @@ class Community extends Component {
                     {activeItem === 'home' && <Home news={news} events={events} tweets={tweets} weather={weather} services={services}/>}
                 </div>}
                 {loading && <div style={{marginTop: '25em'}}>
-                    <b style={{fontSize: '5em'}}>Loading</b> <Icon loading name='spinner' size='massive'/>
+                    <b><h1>Loading</h1></b> <Icon style={{marginTop: '.3em'}} loading name='spinner' size='massive'/>
                 </div>}
             </div>
         );

@@ -113,11 +113,11 @@ class Home extends Component {
         return (
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div>
-                    <b style={{display: 'flex', fontSize: '3em'}}>{temp + "°"}</b>
+                    <b style={{display: 'flex'}}><h1>{temp + "°"}</h1></b>
                     {conditions.length > 0 && conditions.map(condition => {
                         return (
-                            <div style={{marginTop: '2em'}}>
-                                <b style={{display: 'flex', fontSize: '2em'}}>{(condition.description || "Unknown")}</b>
+                            <div style={{marginTop: '.5em'}}>
+                                <b style={{display: 'flex', fontSize: '2em'}}><h2>{(condition.description || "Unknown")}</h2></b>
                             </div>
                         );
                     })}
@@ -141,23 +141,27 @@ class Home extends Component {
     introduction = () => {
         return (
             <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-                <b style={{fontSize: '3em', marginTop: '1em'}}>Welcome to the Community App!</b>
-                <b style={{fontSize: '2em', marginTop: '2em'}}>
-                    This application will help you get to know your community and keep you in the loop.
+                <b style={{marginTop: '1em'}}><h1>Welcome to the Community App!</h1></b>
+                <b style={{marginTop: '2em'}}>
+                    <h3>
+                        This application will help you get to know your community and keep you in the loop.
+                    </h3>
                 </b>
-                <b style={{fontSize: '2em', marginTop: '1em'}}>
-                    For News pertaining to your community please visit the News Tab
+                <b style={{ marginTop: '1em'}}>
+                    <h3>
+                        For News pertaining to your community please visit the News Tab
+                    </h3>
                 </b>
-                <b style={{fontSize: '2em', marginTop: '1em'}}>
-                    For Events taking place in or near your community please visit the Events Tab
+                <b style={{marginTop: '1em'}}>
+                    <h3>
+                        For Events taking place in or near your community please visit the Events Tab
+                    </h3>
                 </b>
                 <b style={{fontSize: '1em', marginTop: '1em'}}>
-                    <span>
+                    <h4>
                         For information regarding a variety of services offered 
-                    </span>
-                    <span>
                         in the community please visit the Services Tab (Under Development)
-                    </span>
+                    </h4>
                 </b>
             </div>
         );
