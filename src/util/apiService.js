@@ -3,7 +3,8 @@ import {
     COMMUNITY_SERVICES_TWITTER_ENDPOINT, 
     COMMUNITY_EVENTS_EVENTBRITE_ENDPOINT,
     WEBPAGE_ADMIN,
-    COMMUNITY_ADMIN_ENDPOINT
+    COMMUNITY_ADMIN_ENDPOINT,
+    COMMUNITY_WEATHER_ENDPOINT
  } from './constants';
 
 export const getTopUSHeadlines = async () => {
@@ -18,8 +19,14 @@ export const getNews = async (url) => {
     return await fetch(url, {method: 'GET'}).then(response => response.json()).then(data => data).catch(error => console.log(error));
 };
 
-export const getEvents = async (city='arlington', state='va', radius='5') => {
+export const getEvents = async () => {
     return await fetch(`${COMMUNITY_EVENTS_EVENTBRITE_ENDPOINT}${WEBPAGE_ADMIN}`, {method: 'GET'})
+        .then(response => response.json()).then(data => data)
+        .catch(error => console.log(error));
+};
+
+export const getWeather = async () => {
+    return await fetch(`${COMMUNITY_WEATHER_ENDPOINT}${WEBPAGE_ADMIN}`, {method: 'GET'})
         .then(response => response.json()).then(data => data)
         .catch(error => console.log(error));
 };
@@ -31,6 +38,7 @@ export const updateAdminSettings = async (adminSettings) => {
         location: {
             city: adminSettings.city,
             state: adminSettings.state,
+            zip: adminSettings.zip,
             radius: adminSettings.radius
         },
         username: 'admin_0'

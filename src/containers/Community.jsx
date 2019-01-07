@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { Menu } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import News from '../components/News';
 import Events from '../components/Events';
 import Home from '../components/Home';
 import Services from '../components/Services';
-import {getTopUSHeadlines, getTwitterHashtag, getEvents} from '../util/apiService';
+import {getTopUSHeadlines, getTwitterHashtag, getEvents, getWeather} from '../util/apiService';
 
 class Community extends Component {
     state = {
@@ -12,18 +12,27 @@ class Community extends Component {
         news: {
             entries: []
         },
-        events: []
+        events: [],
+        weather: {},
+        tweets: [],
+        services: [],
+        loading: true
     };
 
     async componentWillMount(){
         if(this.state.news.entries.length < 3) {
             const newsResponse = await getTopUSHeadlines()
             const twitterData = await getTwitterHashtag();
+            const weatherData = await getWeather();
+
+            const tempKelvin = weatherData.success.list[0].main.temp;
+
+            const weather = {
+                temp: Math.round((tempKelvin - 273.15) * 9/5 + 32),
+                conditions: weatherData.success.list[0].weather
+            };
 
             const newsData = newsResponse.success.articles ? newsResponse.success : {articles: []};
-
-            console.log(newsData);
-
 
             const newsEntries = newsData.articles.map(article => {
                 return {
@@ -56,7 +65,10 @@ class Community extends Component {
 
             this.setState({
                 news: {entries},
-                events
+                tweets,
+                events,
+                weather,
+                loading: false
             });
         }
     }
@@ -108,14 +120,27 @@ class Community extends Component {
 
 
     render(){
-        const {activeItem, news, events} = this.state;
+        const {
+            activeItem, 
+            news, 
+            events, 
+            tweets, 
+            weather, 
+            services,
+            loading
+        } = this.state;
         return (
             <div>
-                {this.menuBar()}
-                {activeItem === 'News' && <News entries={news.entries}/>}
-                {activeItem === 'Events' && <Events events={events}/>}
-                {activeItem === 'Services' && <Services/>}
-                {activeItem === 'home' && <Home/>}
+                {!loading && <div style={{backgroundImage: 'url("/images/background.jpg")'}}>
+                    {this.menuBar()}
+                    {activeItem === 'News' && <News entries={news.entries}/>}
+                    {activeItem === 'Events' && <Events events={events}/>}
+                    {activeItem === 'Services' && <Services/>}
+                    {activeItem === 'home' && <Home news={news} events={events} tweets={tweets} weather={weather} services={services}/>}
+                </div>}
+                {loading && <div style={{marginTop: '25em'}}>
+                    <b style={{fontSize: '5em'}}>Loading</b> <Icon loading name='spinner' size='massive'/>
+                </div>}
             </div>
         );
     }
