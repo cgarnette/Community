@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import { Segment } from 'semantic-ui-react';
 import { Tweet } from './templates/tweetTemplate';
 import { NewsEntry } from './templates/newsTemplate';
 import { EventDisplay } from './templates/eventTemplate';
 import { Introduction } from './templates/introduction';
 import { Weather } from './templates/weatherTemplate';
+import { ItemDisplay } from './templates/itemDisplayTemplate';
 import * as _ from 'lodash';
 
 class Home extends Component {
@@ -18,14 +18,6 @@ class Home extends Component {
 
     componentWillReceiveProps(nextProps) {
         this.setState(nextProps);
-    }
-
-    itemDisplayContainer = (item, width="90%") => {
-        return (
-            <Segment style={{margin: '1em', width: width, marginLeft: '5%', marginRight: '5%'}}>
-                {item}
-            </Segment>
-        );
     }
 
     getComponents = () => {
@@ -67,8 +59,12 @@ class Home extends Component {
         const components = this.getComponents();
         return (
             <div>
-                {this.itemDisplayContainer(<Introduction/>)}
-                {this.itemDisplayContainer(<Weather weather={this.state.weather}/>, "20%")}
+                <ItemDisplay>
+                    <Introduction/>
+                </ItemDisplay>
+                <ItemDisplay width={"20%"}>
+                    <Weather weather={this.state.weather}/>
+                </ItemDisplay>
                 <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between'}}>
                     {components}
                 </div>
