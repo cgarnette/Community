@@ -4,7 +4,7 @@ import News from '../components/News';
 import Events from '../components/Events';
 import Home from '../components/Home';
 import Services from '../components/Services';
-import {getTopUSHeadlines, getTwitterHashtag, getEvents, getWeather} from '../util/apiService';
+import { getDataPartial, getDataFull } from '../util/helpers';
 
 class Community extends Component {
     state = {
@@ -21,53 +21,15 @@ class Community extends Component {
 
     async componentWillMount(){
         if(this.state.news.entries.length < 3) {
-            const newsResponse = await getTopUSHeadlines()
-            const twitterData = await getTwitterHashtag();
-            const weatherData = await getWeather();
-
-            const tempKelvin = weatherData.success.list[0].main.temp;
-
-            const weather = {
-                temp: Math.round((tempKelvin - 273.15) * 9/5 + 32),
-                conditions: weatherData.success.list[0].weather
-            };
-
-            const newsData = newsResponse.success.articles ? newsResponse.success : {articles: []};
-
-            const newsEntries = newsData.articles.map(article => {
-                return {
-                    author: article.author,
-                    date: new Date (article.publishedAt),
-                    source: article.source,
-                    content: article.content,
-                    title: article.title,
-                    url: article.url,
-                    urlToImage: article.urlToImage
-                };
-            });
-
-            const tweets = twitterData.success.map(tweet => {
-                return {
-                    id: tweet.id_str,
-                    date: new Date(tweet.created_at),
-                    isTweet: true
-                };
-            });
-            let entries = newsEntries.concat(tweets);
-            entries.sort(this.getRandom);
-
-            let events = [];
-
+            let response = {};
             if (this.state.events.length < 2) {
-                const response = await getEvents();
-                events = response.success;
+                response = await getDataFull();
+            } else {
+                response = await getDataPartial();
             }
 
             this.setState({
-                news: {entries},
-                tweets,
-                events,
-                weather,
+                ...response,
                 loading: false
             });
         }
